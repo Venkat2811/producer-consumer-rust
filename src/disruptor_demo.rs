@@ -20,7 +20,7 @@ fn spsc_example() {
     let processor = {
         let sink = Arc::clone(&sink);
         move |event: &Event, _sequence: i64, _end_of_batch: bool| {
-            sink.fetch_add(event.val, Ordering::SeqCst);
+            sink.fetch_add(event.val, Ordering::Release);
         }
     };
 
@@ -46,7 +46,7 @@ fn spsc_example() {
     let d = Instant::now().duration_since(start_time);
     let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::SeqCst);
+    let sum = sink.load(Ordering::Acquire);
     println!("SPSC Sum: {}, processed time: {}", sum, delta);
 }
 
@@ -62,7 +62,7 @@ fn mpsc_example() {
     let processor = {
         let sink = Arc::clone(&sink);
         move |event: &Event, _sequence: i64, _end_of_batch: bool| {
-            sink.fetch_add(event.val, Ordering::SeqCst);
+            sink.fetch_add(event.val, Ordering::Release);
         }
     };
 
@@ -98,7 +98,7 @@ fn mpsc_example() {
     let d = Instant::now().duration_since(start_time);
     let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::SeqCst);
+    let sum = sink.load(Ordering::Acquire);
     println!("MPSC Sum: {}, processed time: {}", sum, delta);
 }
 

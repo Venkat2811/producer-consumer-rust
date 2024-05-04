@@ -24,7 +24,7 @@ fn spsc_example() {
     let c1: JoinHandle<()> = thread::spawn(move || {
         for msg in r {
             let tmp = msg;
-            sink_clone.fetch_add(tmp, Ordering::SeqCst);
+            sink_clone.fetch_add(tmp, Ordering::Release);
         }
     });
 
@@ -34,7 +34,7 @@ fn spsc_example() {
     let d = Instant::now().duration_since(start_time);
     let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::SeqCst);
+    let sum = sink.load(Ordering::Acquire);
     println!("SPSC Sum: {}, processed time: {}", sum, delta);
 }
 
@@ -65,7 +65,7 @@ fn mpsc_example() {
     let c1: JoinHandle<()> = thread::spawn(move || {
         for msg in r {
             let tmp = msg;
-            sink_clone.fetch_add(tmp, Ordering::SeqCst);
+            sink_clone.fetch_add(tmp, Ordering::Release);
         }
     });
 
@@ -76,7 +76,7 @@ fn mpsc_example() {
     let d = Instant::now().duration_since(start_time);
     let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::SeqCst);
+    let sum = sink.load(Ordering::Acquire);
     println!("MPSC Sum: {}, processed time: {}", sum, delta);
 }
 
