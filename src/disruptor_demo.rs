@@ -87,7 +87,7 @@ fn mpsc_example() {
         });
 
         s.spawn(move || {
-            for _ in 0..producer_msg_no+1 {
+            for _ in 0..producer_msg_no {
                 producer2.publish(|e| {
                     e.val = 1 as i32;
                 });
