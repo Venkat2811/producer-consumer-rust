@@ -1,0 +1,16 @@
+[package]
+name = "producer-consumer-rust"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "crossbeam_demo"
+path = "src/crossbeam_demo.rs"
+
+[[bin]]
+name = "disruptor_demo"
+path = "src/disruptor_demo.rs"
+
+[dependencies]
+crossbeam = "0.8.4"
+disruptor = "1.1.0"
