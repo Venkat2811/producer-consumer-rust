@@ -1,14 +1,13 @@
-use crossbeam::channel::*;
 use std::thread::{self, JoinHandle};
 use std::time::Instant;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicI32, Ordering};
+use std::sync::mpsc::{self, SyncSender, Receiver};
 
-
-fn crossbeam_spsc(should_print: bool) {
+fn std_spsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
-    let (s, r) = bounded(buf_size);
+    let (s, r): (SyncSender<i32>, Receiver<i32>) = mpsc::sync_channel(buf_size);
 
     let start_time = Instant::now();
     // Producer 
@@ -18,7 +17,7 @@ fn crossbeam_spsc(should_print: bool) {
         }
     });
 
-    let sink = Arc::new(AtomicI32::new(0)); //bcos we read and print value from main thread
+    let sink = Arc::new(AtomicI32::new(0));
     let sink_clone = Arc::clone(&sink);
     // Consumer
     let c1: JoinHandle<()> = thread::spawn(move || {
@@ -42,10 +41,10 @@ fn crossbeam_spsc(should_print: bool) {
     }
 }
 
-fn crossbeam_mpsc(should_print: bool) {
+fn std_mpsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
-    let (s, r) = bounded(buf_size);
+    let (s, r): (SyncSender<i32>, Receiver<i32>) = mpsc::sync_channel(buf_size);
     let s2 = s.clone();
 
     let start_time = Instant::now();
@@ -63,7 +62,7 @@ fn crossbeam_mpsc(should_print: bool) {
         }
     });
 
-    let sink = Arc::new(AtomicI32::new(0)); //bcos we read and print value from main thread
+    let sink = Arc::new(AtomicI32::new(0));
     let sink_clone = Arc::clone(&sink);
     // Consumer
     let c1: JoinHandle<()> = thread::spawn(move || {
@@ -89,6 +88,6 @@ fn crossbeam_mpsc(should_print: bool) {
 }
 
 fn main() {
-    crossbeam_spsc(true);
-    crossbeam_mpsc(true);
+    std_spsc(true);
+    std_mpsc(true);
 }

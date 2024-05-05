@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
+name = "std_demo"
+path = "src/std_demo.rs"
+
+[[bin]]
 name = "crossbeam_demo"
 path = "src/crossbeam_demo.rs"
 

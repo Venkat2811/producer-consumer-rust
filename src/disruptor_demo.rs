@@ -9,7 +9,7 @@ struct Event {
 }
 
 //spsc
-fn spsc_example() {
+fn disruptor_spsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
 
@@ -43,15 +43,19 @@ fn spsc_example() {
         });
     });
 
-    let d = Instant::now().duration_since(start_time);
-    let delta = d.as_millis();
+    if should_print {
+        let d = Instant::now().duration_since(start_time);
+        let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::Acquire);
-    println!("SPSC Sum: {}, processed time: {}", sum, delta);
+        let sum = sink.load(Ordering::Acquire);
+        println!("SPSC Sum: {}, processed time: {}", sum, delta);
+    } else {
+        sink.load(Ordering::Acquire);
+    }
 }
 
 //mpsc
-fn mpsc_example() {
+fn disruptor_mpsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
 
@@ -95,14 +99,18 @@ fn mpsc_example() {
         });
     });
 
-    let d = Instant::now().duration_since(start_time);
-    let delta = d.as_millis();
+    if should_print {
+        let d = Instant::now().duration_since(start_time);
+        let delta = d.as_millis();
 
-    let sum = sink.load(Ordering::Acquire);
-    println!("MPSC Sum: {}, processed time: {}", sum, delta);
+        let sum = sink.load(Ordering::Acquire);
+        println!("MPSC Sum: {}, processed time: {}", sum, delta);
+    } else {
+        sink.load(Ordering::Acquire);
+    }
 }
 
 fn main() {
-    spsc_example();
-    mpsc_example();
+    disruptor_spsc(true);
+    disruptor_mpsc(true);
 }
