@@ -1,5 +1,5 @@
 [package]
-name = "producer-consumer-rust"
+name = "producer_consumer_rust"
 version = "0.1.0"
 edition = "2021"
 
@@ -18,3 +18,10 @@ path = "src/disruptor_demo.rs"
 [dependencies]
 crossbeam = "0.8.4"
 disruptor = "1.1.0"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "spsc_mpsc_event_counters"
+harness = false

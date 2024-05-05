@@ -5,7 +5,7 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicI32, Ordering};
 
 
-fn crossbeam_spsc(should_print: bool) {
+pub fn crossbeam_spsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
     let (s, r) = bounded(buf_size);
@@ -42,7 +42,7 @@ fn crossbeam_spsc(should_print: bool) {
     }
 }
 
-fn crossbeam_mpsc(should_print: bool) {
+pub fn crossbeam_mpsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
     let (s, r) = bounded(buf_size);

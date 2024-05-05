@@ -4,7 +4,7 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicI32, Ordering};
 use std::sync::mpsc::{self, SyncSender, Receiver};
 
-fn std_spsc(should_print: bool) {
+pub fn std_spsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
     let (s, r): (SyncSender<i32>, Receiver<i32>) = mpsc::sync_channel(buf_size);
@@ -41,7 +41,7 @@ fn std_spsc(should_print: bool) {
     }
 }
 
-fn std_mpsc(should_print: bool) {
+pub fn std_mpsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
     let (s, r): (SyncSender<i32>, Receiver<i32>) = mpsc::sync_channel(buf_size);

@@ -9,7 +9,7 @@ struct Event {
 }
 
 //spsc
-fn disruptor_spsc(should_print: bool) {
+pub fn disruptor_spsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
 
@@ -55,7 +55,7 @@ fn disruptor_spsc(should_print: bool) {
 }
 
 //mpsc
-fn disruptor_mpsc(should_print: bool) {
+pub fn disruptor_mpsc(should_print: bool) {
     let buf_size = 32_768;
     let producer_msg_no = 10_000_000;
 
