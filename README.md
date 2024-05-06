@@ -48,6 +48,13 @@ MPSC Sum: 20000000, processed time: 686
 
 A simple throughput benchmark using [criterion create](https://crates.io/crates/criterion) as recommended [here](https://github.com/nicholassm/disruptor-rs/issues/7#issuecomment-2094345258) 
 
+As of May 6, 2024:
+
+**SPSC:**
+Throughput: std > disruptor > crossbeam
+
+**MPSC:**
+Throughput: std > mpsc > disruptor
 ```bash
 $ make bench
 
