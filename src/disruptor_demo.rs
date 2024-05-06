@@ -3,10 +3,7 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicI32, Ordering};
 use std::time::Instant;
 use disruptor::{build_multi_producer, build_single_producer, BusySpin, Producer};
-
-struct Event {
-    val: i32
-}
+use crate::event::Event;
 
 //spsc
 pub fn disruptor_spsc(should_print: bool) {
@@ -108,9 +105,4 @@ pub fn disruptor_mpsc(should_print: bool) {
     } else {
         sink.load(Ordering::Acquire);
     }
-}
-
-fn main() {
-    disruptor_spsc(true);
-    disruptor_mpsc(true);
 }

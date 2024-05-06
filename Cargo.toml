@@ -3,21 +3,18 @@ name = "producer_consumer_rust"
 version = "0.1.0"
 edition = "2021"
 
-[[bin]]
-name = "std_demo"
-path = "src/std_demo.rs"
+[lib]
+name = "producer_consumer_rust"
+path = "src/lib.rs"
 
 [[bin]]
-name = "crossbeam_demo"
-path = "src/crossbeam_demo.rs"
-
-[[bin]]
-name = "disruptor_demo"
-path = "src/disruptor_demo.rs"
+name = "main"
+path = "src/main.rs"
 
 [dependencies]
 crossbeam = "0.8.4"
 disruptor = "1.1.0"
+clap = "4.5.4"
 
 [dev-dependencies]
 criterion = "0.5"
