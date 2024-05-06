@@ -11,30 +11,42 @@ We use 2 producer threads and 1 consumer thread in MPSC & 1 producer thread and 
 
 My Blog post: https://venkat.eu/the-power-of-mechanical-sympathy-in-software-engineering#heading-lmax-disruptor
 
-## Benchmarks
-
-### disruptor lib official benchmark
-
-See [disruptor results](https://github.com/nicholassm/disruptor-rs?tab=readme-ov-file#performance)
+## Run
 
 On my `13-inch, M1, 2020, 16 GB MacBook Pro`:
-- disruptor takes, ~150ms in SPSC & ~700ms in MPSC
-- crossbeam takes, ~230ms in SPSC & ~550ms in MPSC
 
 ```bash
-$ make run-disruptor-demo-optimized
-cargo run --release --bin disruptor_demo
-    Finished release [optimized] target(s) in 0.01s
-     Running `target/release/disruptor_demo`
-SPSC Sum: 10000000, processed time: 141
-MPSC Sum: 20000000, processed time: 694
+$ make run-all-optimized 
+
+cargo run --release --bin main -- --lib std
+    Finished `release` profile [optimized] target(s) in 1.75s
+     Running `target/release/main --lib std`
+Running std demo:
+SPSC Sum: 10000000, processed time: 140
+MPSC Sum: 20000000, processed time: 555
+
+cargo run --release --bin main -- --lib crossbeam
+    Finished `release` profile [optimized] target(s) in 0.01s
+     Running `target/release/main --lib crossbeam`
+Running crossbeam demo:
+SPSC Sum: 10000000, processed time: 347
+MPSC Sum: 20000000, processed time: 249
+
+cargo run --release --bin main -- --lib disruptor
+    Finished `release` profile [optimized] target(s) in 0.01s
+     Running `target/release/main --lib disruptor`
+Running disruptor demo:
+SPSC Sum: 10000000, processed time: 183
+MPSC Sum: 20000000, processed time: 686
+
 ```
 
+## Benchmarks
+
+**disruptor lib official benchmark:** See [disruptor results](https://github.com/nicholassm/disruptor-rs?tab=readme-ov-file#performance)
+
+Benchmark using [criterion create](https://crates.io/crates/criterion) as recommended [here](https://github.com/nicholassm/disruptor-rs/issues/7#issuecomment-2094345258) 
+
 ```bash
-$ make run-crossbeam-demo-optimized
-cargo run --release --bin crossbeam_demo
-    Finished release [optimized] target(s) in 0.00s
-     Running `target/release/crossbeam_demo`
-SPSC Sum: 10000000, processed time: 242
-MPSC Sum: 20000000, processed time: 555
+$ make bench
 ```
